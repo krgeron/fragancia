@@ -2,6 +2,7 @@
 // BarberShop JSON-LD structured data — injected on every page via BaseLayout.
 // Highest-impact SEO component for local "barber near me" search.
 import { business } from '../../data/info';
+import { services } from '../../data/services';
 
 const siteURL = 'https://fraganciabarbershop.com';
 
@@ -52,9 +53,28 @@ const schema = {
     postalCode: business.address.postalCode,
     addressCountry: business.address.country,
   },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: business.geo.lat,
+    longitude: business.geo.lng,
+  },
+  areaServed: business.areaServed.map((name) => ({ '@type': 'City', name })),
+  keywords: business.keywords.join(', '),
   hasMap: business.mapLink,
   priceRange: '$$',
+  currenciesAccepted: 'USD',
+  paymentAccepted: 'Cash, Credit Card',
   openingHoursSpecification: openingHours,
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Barbershop Services',
+    itemListElement: services.map((s) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: s.name, description: s.description },
+      price: String(s.price),
+      priceCurrency: 'USD',
+    })),
+  },
   sameAs: [business.instagram],
 };
 ---

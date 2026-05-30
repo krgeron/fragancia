@@ -7,8 +7,8 @@ const photos = Array.from({ length: TOTAL }, (_, i) => i + 1);
 ---
 
 <BaseLayout
-  title={`Gallery | ${business.name}`}
-  description="A look at the fades, cuts, beard work, and styles from the chairs at Fragancia Dominican Barbershop."
+  title={`Gallery | Fades, Beards, Dreads & Kids Cuts | ${business.name}`}
+  description="Real fades, faded haircuts, kids cuts, beard trims, dreads, and grooming from the chairs at FRAGANCIA Dominican Barbershop — a barbershop near you on US-27 by Posner Park, Davenport FL, serving Haines City, Lakeland, and Orlando."
 >
   <!-- Page header -->
   <section class="pt-32 lg:pt-40 pb-12 bg-ink-900 text-center px-4">
@@ -33,8 +33,9 @@ const photos = Array.from({ length: TOTAL }, (_, i) => i + 1);
             >
               <img
                 src={`/images/gallery/${n}.jpg`}
-                alt={`Haircut ${n} by Fragancia Dominican Barbershop`}
+                alt={`Fade, beard trim, dreads or kids haircut #${n} at FRAGANCIA Dominican Barbershop, US-27 Davenport FL`}
                 loading="lazy"
+                decoding="async"
                 class="w-full hover:scale-105 transition-transform duration-500"
               />
             </button>

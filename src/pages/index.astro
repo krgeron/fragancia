@@ -5,12 +5,12 @@ import { business } from '../data/info';
 
 const featured = services.filter((s) => s.featured);
 // Hand-picked highlights for the homepage "Our Work" section.
-const galleryTeaser = [1, 15, 3, 22, 35, 6, 5, 38, 49];
+const galleryTeaser = [1, 15, 43, 3, 22, 35, 6, 5, 38, 49];
 const heroImage = '/images/gallery/9.jpg';
 ---
 
 <BaseLayout
-  title={`${business.name} | Fades, Beards & Classic Cuts`}
+  title={`${business.name} | Barber on US-27 · Posner Park, Davenport FL`}
   description={business.description}
   heroImage={heroImage}
 >
@@ -55,8 +55,9 @@ const heroImage = '/images/gallery/9.jpg';
       </h2>
       <p class="mt-6 font-sans text-cream-300/80 leading-relaxed text-balance">
         At {business.shortName}, barbering is a tradition passed down and perfected. From precision
-        skin fades to classic scissor work and razor-sharp beard sculpting, our chair is where
-        style meets care. Sit back, relax, and let us handle the details.
+        skin fades and faded haircuts to kids cuts, beard trims, dreads, grooming, and hot towel
+        shaves, our chair is where style meets care. Conveniently located on US-27 by Posner Park
+        in Davenport, FL — a trusted barbershop near you serving Haines City, Lakeland, and Orlando.
       </p>
     </div>
   </section>
@@ -103,8 +104,9 @@ const heroImage = '/images/gallery/9.jpg';
           <div class="aspect-square overflow-hidden">
             <img
               src={`/images/gallery/${n}.jpg`}
-              alt="Haircut by Fragancia Dominican Barbershop"
+              alt="Fade, beard trim and haircut at FRAGANCIA Dominican Barbershop in Davenport, FL"
               loading="lazy"
+              decoding="async"
               class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
             />
           </div>

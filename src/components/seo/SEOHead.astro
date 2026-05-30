@@ -26,8 +26,15 @@ const absoluteOgImage = ogImage.startsWith('http') ? ogImage : `${siteURL}${ogIm
 <!-- Primary Meta -->
 <title>{title}</title>
 <meta name="description" content={description} />
+<meta name="keywords" content={business.keywords.join(', ')} />
 <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
 <link rel="canonical" href={canonicalURL} />
+
+<!-- Local / geo SEO -->
+<meta name="geo.region" content="US-FL" />
+<meta name="geo.placename" content="Davenport, Florida (Posner Park, US-27)" />
+<meta name="geo.position" content={`${business.geo.lat};${business.geo.lng}`} />
+<meta name="ICBM" content={`${business.geo.lat}, ${business.geo.lng}`} />
 
 <!-- Open Graph -->
 <meta property="og:type" content={ogType} />
