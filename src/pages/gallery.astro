@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { business } from '../data/info';
+
+const TOTAL = 58;
+const photos = Array.from({ length: TOTAL }, (_, i) => i + 1);
+---
+
+<BaseLayout
+  title={`Gallery | ${business.name}`}
+  description="A look at the fades, cuts, beard work, and styles from the chairs at Fragancia Dominican Barbershop."
+>
+  <!-- Page header -->
+  <section class="pt-32 lg:pt-40 pb-12 bg-ink-900 text-center px-4">
+    <p class="section-label mb-3">Our Work</p>
+    <h1 class="font-serif text-display-lg lg:text-display-xl font-semibold text-cream-50">The Gallery</h1>
+    <p class="mt-4 font-sans text-cream-300/70 max-w-xl mx-auto text-balance">
+      Real cuts, real clients. Tap any photo to take a closer look.
+    </p>
+  </section>
+
+  <!-- Masonry gallery -->
+  <section class="section-padding bg-ink-900 pt-4">
+    <div class="container-content">
+      <div class="masonry-grid">
+        {photos.map((n) => (
+          <div class="masonry-item">
+            <button
+              type="button"
+              class="gallery-trigger block w-full overflow-hidden focus-visible:outline-2 focus-visible:outline-gold-400"
+              data-src={`/images/gallery/${n}.jpg`}
+              aria-label={`View photo ${n} larger`}
+            >
+              <img
+                src={`/images/gallery/${n}.jpg`}
+                alt={`Haircut ${n} by Fragancia Dominican Barbershop`}
+                loading="lazy"
+                class="w-full hover:scale-105 transition-transform duration-500"
+              />
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <div class="text-center mt-16">
+        <a href={business.instagram} target="_blank" rel="noopener noreferrer" class="btn-gold">Book Your Cut</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div
+    id="lightbox"
+    class="fixed inset-0 z-[100] hidden items-center justify-center bg-ink-900/95 p-4"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Photo viewer"
+  >
+    <button
+      id="lightbox-close"
+      type="button"
+      class="absolute top-5 right-5 w-11 h-11 flex items-center justify-center text-cream-100 hover:text-gold-400 text-3xl"
+      aria-label="Close photo viewer"
+    >&times;</button>
+    <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[90vh] object-contain" />
+  </div>
+
+  <script>
+    const lightbox = document.getElementById('lightbox') as HTMLElement;
+    const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+    const closeBtn = document.getElementById('lightbox-close') as HTMLButtonElement;
+
+    function openLightbox(src: string) {
+      lightboxImg.src = src;
+      lightbox.classList.remove('hidden');
+      lightbox.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      lightbox.classList.add('hidden');
+      lightbox.classList.remove('flex');
+      lightboxImg.src = '';
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll<HTMLButtonElement>('.gallery-trigger').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const src = btn.getAttribute('data-src');
+        if (src) openLightbox(src);
+      });
+    });
+
+    closeBtn.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) closeLightbox();
+    });
+  </script>
+</BaseLayout>

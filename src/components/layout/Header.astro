@@ -1,0 +1,114 @@
+---
+import { navItems } from '../../data/navigation';
+import { business } from '../../data/info';
+---
+
+<header
+  id="site-header"
+  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-ink-900/95 backdrop-blur-sm border-b border-gold-700/40"
+>
+  <div class="container-content flex items-center justify-between h-16 lg:h-24 px-4 sm:px-6 lg:px-8">
+
+    <!-- Logo -->
+    <a href="/" aria-label={`${business.name} — Home`} class="flex items-center gap-3 flex-shrink-0">
+      <img
+        src="/logo.jpg"
+        alt={business.name}
+        width="64"
+        height="64"
+        class="h-12 w-12 lg:h-16 lg:w-16 rounded-full object-cover ring-1 ring-gold-700/50"
+      />
+      <span class="hidden sm:flex flex-col leading-none">
+        <span class="font-serif text-lg lg:text-2xl font-semibold text-cream-100 tracking-wide">Fragancia</span>
+        <span class="font-sans text-[0.6rem] lg:text-xs tracking-[0.25em] uppercase text-gold-400">Dominican Barbershop</span>
+      </span>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav aria-label="Main navigation" class="hidden lg:flex items-center gap-8">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          class="font-sans text-sm font-medium tracking-[0.06em] uppercase
+                 text-cream-200 hover:text-gold-400 transition-colors duration-200"
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <!-- Desktop CTA + Mobile toggle -->
+    <div class="flex items-center gap-3">
+      <a
+        href={business.instagram}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden lg:inline-flex btn-gold py-3 px-6 text-xs"
+        aria-label="Book on Instagram"
+      >
+        Book Now
+      </a>
+
+      <!-- Mobile menu button -->
+      <button
+        id="mobile-menu-btn"
+        type="button"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Open navigation menu"
+        class="lg:hidden flex flex-col items-center justify-center w-11 h-11 gap-1.5"
+      >
+        <span class="block w-5 h-0.5 bg-cream-100 transition-all duration-300 origin-center"></span>
+        <span class="block w-5 h-0.5 bg-cream-100 transition-all duration-300 origin-center"></span>
+        <span class="block w-5 h-0.5 bg-cream-100 transition-all duration-300 origin-center"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu drawer -->
+  <div
+    id="mobile-menu"
+    class="lg:hidden hidden bg-ink-900 border-t border-ink-700"
+    aria-label="Mobile navigation"
+  >
+    <nav class="container-content px-4 py-6 flex flex-col gap-1">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          class="font-sans text-base font-medium text-cream-200 hover:text-gold-400
+                 py-3 border-b border-ink-700 last:border-0 transition-colors duration-200"
+        >
+          {item.label}
+        </a>
+      ))}
+      <a
+        href={business.instagram}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-gold mt-4 text-center"
+      >
+        Book Now
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn') as HTMLButtonElement;
+  const mobileMenu = document.getElementById('mobile-menu') as HTMLElement;
+  let menuOpen = false;
+
+  mobileMenuBtn.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    mobileMenu.classList.toggle('hidden', !menuOpen);
+    mobileMenuBtn.setAttribute('aria-expanded', String(menuOpen));
+  });
+
+  mobileMenu.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      menuOpen = false;
+      mobileMenu.classList.add('hidden');
+      mobileMenuBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>

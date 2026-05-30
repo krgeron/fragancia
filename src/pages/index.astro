@@ -1,0 +1,158 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { services, currency } from '../data/services';
+import { business } from '../data/info';
+
+const featured = services.filter((s) => s.featured);
+// Hand-picked highlights for the homepage "Our Work" section.
+const galleryTeaser = [1, 15, 3, 22, 35, 6, 5, 38, 49];
+const heroImage = '/images/gallery/9.jpg';
+---
+
+<BaseLayout
+  title={`${business.name} | Fades, Beards & Classic Cuts`}
+  description={business.description}
+  heroImage={heroImage}
+>
+  <!-- Hero -->
+  <section class="relative min-h-[92vh] flex items-center justify-center overflow-hidden">
+    <img
+      src={heroImage}
+      alt="Fresh fade and beard line-up at Fragancia Dominican Barbershop"
+      class="absolute inset-0 w-full h-full object-cover"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-hero"></div>
+
+    <div class="relative z-10 container-content px-4 text-center flex flex-col items-center animate-fade-in">
+      <img
+        src="/logo.jpg"
+        alt={business.name}
+        width="160"
+        height="160"
+        class="h-28 w-28 lg:h-40 lg:w-40 rounded-full object-cover ring-2 ring-gold-500/70 shadow-card mb-8"
+      />
+      <p class="section-label mb-4">Est. Dominican Barbering</p>
+      <h1 class="font-serif text-display-lg lg:text-display-2xl font-semibold text-cream-50 text-balance max-w-3xl">
+        Sharp Cuts. Clean Lines. <span class="text-gold-400">Pure Confidence.</span>
+      </h1>
+      <p class="mt-6 font-sans text-base lg:text-lg text-cream-200/90 max-w-xl text-balance">
+        {business.tagline}. Walk in for a fresh look, walk out feeling brand new.
+      </p>
+      <div class="mt-10 flex flex-col sm:flex-row gap-4">
+        <a href={business.instagram} target="_blank" rel="noopener noreferrer" class="btn-gold">Book on Instagram</a>
+        <a href="/services" class="btn-outline-cream">View Services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Intro -->
+  <section class="section-padding bg-ink-900">
+    <div class="container-content max-w-prose-wide text-center">
+      <span class="gold-rule"></span>
+      <h2 class="mt-6 font-serif text-display-md lg:text-display-lg font-semibold text-cream-50 text-balance">
+        Where every cut is a craft
+      </h2>
+      <p class="mt-6 font-sans text-cream-300/80 leading-relaxed text-balance">
+        At {business.shortName}, barbering is a tradition passed down and perfected. From precision
+        skin fades to classic scissor work and razor-sharp beard sculpting, our chair is where
+        style meets care. Sit back, relax, and let us handle the details.
+      </p>
+    </div>
+  </section>
+
+  <!-- Featured services -->
+  <section class="section-padding bg-ink-800 border-y border-ink-700">
+    <div class="container-content">
+      <div class="text-center mb-12">
+        <p class="section-label mb-3">What We Do</p>
+        <h2 class="font-serif text-display-md lg:text-display-lg font-semibold text-cream-50">
+          Signature Services
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {featured.map((s) => (
+          <div class="card p-8 flex flex-col">
+            <h3 class="font-serif text-2xl font-semibold text-cream-50">{s.name}</h3>
+            <p class="mt-3 font-sans text-sm text-cream-300/70 leading-relaxed flex-1">{s.description}</p>
+            <div class="mt-6 flex items-center justify-between border-t border-ink-600 pt-4">
+              <span class="font-serif text-xl text-gold-400">{currency}{s.price}</span>
+              <span class="font-sans text-xs uppercase tracking-wider text-cream-300/50">{s.duration}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="text-center mt-12">
+        <a href="/services" class="btn-outline-gold">See Full Menu & Pricing</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery teaser -->
+  <section class="section-padding bg-ink-900">
+    <div class="container-content">
+      <div class="text-center mb-12">
+        <p class="section-label mb-3">Fresh From The Chair</p>
+        <h2 class="font-serif text-display-md lg:text-display-lg font-semibold text-cream-50">Our Work</h2>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-3 lg:gap-4">
+        {galleryTeaser.map((n) => (
+          <div class="aspect-square overflow-hidden">
+            <img
+              src={`/images/gallery/${n}.jpg`}
+              alt="Haircut by Fragancia Dominican Barbershop"
+              loading="lazy"
+              class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+        ))}
+      </div>
+
+      <div class="text-center mt-12">
+        <a href="/gallery" class="btn-outline-gold">View Full Gallery</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Location / Book CTA -->
+  <section class="section-padding bg-ink-800 border-t border-gold-700/40">
+    <div class="container-content grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <p class="section-label mb-3">Visit The Shop</p>
+        <h2 class="font-serif text-display-md font-semibold text-cream-50 mb-6">Stop by or book ahead</h2>
+        <div class="space-y-2 font-sans text-cream-300/80">
+          <p>{business.address.street}</p>
+          <p>{business.address.locality}, {business.address.region} {business.address.postalCode}</p>
+        </div>
+        <div class="mt-6 space-y-1 font-sans text-sm text-cream-300/70">
+          {business.hours.map((h) => (
+            <div class="flex justify-between max-w-xs">
+              <span>{h.day}</span>
+              <span class={h.open === 'Closed' ? 'text-pole-red' : 'text-cream-200'}>
+                {h.open === 'Closed' ? 'Closed' : `${h.open} – ${h.close}`}
+              </span>
+            </div>
+          ))}
+        </div>
+        <div class="mt-8 flex flex-col sm:flex-row gap-4">
+          <a href={business.instagram} target="_blank" rel="noopener noreferrer" class="btn-gold">Book on Instagram</a>
+          <a href={business.phoneHref} class="btn-outline-cream">Call The Shop</a>
+        </div>
+      </div>
+
+      <div class="aspect-[4/3] overflow-hidden border border-ink-600">
+        <iframe
+          src={business.mapEmbedUrl}
+          title="Map to Fragancia Dominican Barbershop"
+          class="w-full h-full"
+          style="border:0;"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

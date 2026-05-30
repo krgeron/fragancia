@@ -1,0 +1,62 @@
+---
+// BarberShop JSON-LD structured data — injected on every page via BaseLayout.
+// Highest-impact SEO component for local "barber near me" search.
+import { business } from '../../data/info';
+
+const siteURL = 'https://fraganciabarbershop.com';
+
+const dayMap: Record<string, string> = {
+  Monday: 'Monday', Tuesday: 'Tuesday', Wednesday: 'Wednesday',
+  Thursday: 'Thursday', Friday: 'Friday', Saturday: 'Saturday', Sunday: 'Sunday',
+};
+
+const to24h = (t: string) => {
+  const m = t.match(/(\d+):(\d+)\s*(AM|PM)/i);
+  if (!m) return null;
+  let h = parseInt(m[1], 10);
+  const min = m[2];
+  const mer = m[3].toUpperCase();
+  if (mer === 'PM' && h !== 12) h += 12;
+  if (mer === 'AM' && h === 12) h = 0;
+  return `${String(h).padStart(2, '0')}:${min}`;
+};
+
+const openingHours = business.hours
+  .filter((h) => h.open !== 'Closed')
+  .map((h) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: dayMap[h.day],
+    opens: to24h(h.open),
+    closes: to24h(h.close),
+  }));
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BarberShop',
+  name: business.name,
+  description: business.description,
+  url: siteURL,
+  telephone: business.phone,
+  email: business.email,
+  logo: `${siteURL}/logo.jpg`,
+  image: [
+    `${siteURL}/logo.jpg`,
+    `${siteURL}/images/gallery/1.jpg`,
+    `${siteURL}/images/gallery/9.jpg`,
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: business.address.street,
+    addressLocality: business.address.locality,
+    addressRegion: business.address.region,
+    postalCode: business.address.postalCode,
+    addressCountry: business.address.country,
+  },
+  hasMap: business.mapLink,
+  priceRange: '$$',
+  openingHoursSpecification: openingHours,
+  sameAs: [business.instagram],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
